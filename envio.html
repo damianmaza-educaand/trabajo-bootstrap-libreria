@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datos de envío · Página &amp; Tinta</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/paginas.css">
+  <link rel="stylesheet" href="css/impresion.css" media="print">
+</head>
+<body data-pagina="envio">
+
+  <!-- ===================== CABECERA / NAVBAR ===================== -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-libreria" aria-label="Navegación principal">
+      <div class="container">
+        <a class="navbar-brand fs-4" href="index.html"><i class="bi bi-book-half"></i> Página &amp; Tinta</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#catalogo">Catálogo</a></li>
+            <li class="nav-item"><a class="nav-link" href="factura.html">Última factura</a></li>
+            <li class="nav-item">
+              <a class="nav-link position-relative" href="carrito.html" aria-label="Ver carrito">
+                <i class="bi bi-cart3 fs-5"></i>
+                <span class="contador-carrito d-none">0</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container py-4">
+    <ol class="pasos" aria-label="Proceso de compra">
+      <li class="hecho"><span>Carrito</span></li>
+      <li class="actual" aria-current="step"><span>Datos de envío</span></li>
+      <li><span>Factura</span></li>
+    </ol>
+
+    <h1 class="mb-4">Datos de envío y pago</h1>
+
+    <!-- novalidate: desactiva los mensajes del navegador para usar los de Bootstrap -->
+    <form id="form-envio" class="row g-4" novalidate>
+      <div class="col-lg-8">
+
+        <!-- 1. Datos personales -->
+        <fieldset class="card border-0 shadow-sm mb-4">
+          <div class="card-body">
+            <legend class="h5 card-title"><i class="bi bi-person"></i> Datos del comprador</legend>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre *</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required autocomplete="given-name">
+                <div class="invalid-feedback">Escribe tu nombre.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="apellidos" class="form-label">Apellidos *</label>
+                <input type="text" class="form-control" id="apellidos" name="apellidos" required autocomplete="family-name">
+                <div class="invalid-feedback">Escribe tus apellidos.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label">Correo electrónico *</label>
+                <!-- input-group: icono pegado al campo -->
+                <div class="input-group has-validation">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="email" name="email" required placeholder="nombre@correo.es" autocomplete="email">
+                  <div class="invalid-feedback">Introduce un correo válido.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="telefono" class="form-label">Teléfono *</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text">+34</span>
+                  <!-- pattern: expresión regular de 9 dígitos que empiecen por 6, 7, 8 o 9 -->
+                  <input type="tel" class="form-control" id="telefono" name="telefono" required pattern="[6789][0-9]{8}" placeholder="600123456" autocomplete="tel-national">
+                  <div class="invalid-feedback">9 dígitos, empezando por 6, 7, 8 o 9.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="nif" class="form-label">NIF (opcional, para la factura)</label>
+                <input type="text" class="form-control" id="nif" name="nif" pattern="[0-9]{8}[A-Za-z]" placeholder="12345678Z">
+                <div class="invalid-feedback">8 números y una letra.</div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. Método de envío: radios con aspecto de tarjeta (:has en CSS) -->
+        <fieldset class="card border-0 shadow-sm mb-4">
+          <div class="card-body">
+            <legend class="h5 card-title"><i class="bi bi-truck"></i> Método de envío</legend>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="opcion-envio h-100">
+                  <input class="form-check-input" type="radio" name="metodo" value="estandar" checked>
+                  <strong>Estándar</strong><br>
+                  <span class="small text-body-secondary">3-5 días · 3,99 €<br>Gratis desde 30 €</span>
+                </label>
+              </div>
+              <div class="col-md-4">
+                <label class="opcion-envio h-100">
+                  <input class="form-check-input" type="radio" name="metodo" value="urgente">
+                  <strong>Urgente</strong><br>
+                  <span class="small text-body-secondary">24 horas · 6,99 €</span>
+                </label>
+              </div>
+              <div class="col-md-4">
+                <label class="opcion-envio h-100">
+                  <input class="form-check-input" type="radio" name="metodo" value="tienda">
+                  <strong>Recoger en tienda</strong><br>
+                  <span class="small text-body-secondary">Calle Ancha 12, Cádiz · Gratis</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 3. Dirección: se oculta (Collapse) si se recoge en tienda -->
+        <div class="collapse show" id="bloque-direccion">
+          <fieldset class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+              <legend class="h5 card-title"><i class="bi bi-geo-alt"></i> Dirección de entrega</legend>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="direccion" class="form-label">Calle, número, piso *</label>
+                  <input type="text" class="form-control" id="direccion" name="direccion" required data-obligatorio autocomplete="street-address">
+                  <div class="invalid-feedback">Escribe la dirección.</div>
+                </div>
+                <div class="col-md-3">
+                  <label for="cp" class="form-label">Código postal *</label>
+                  <input type="text" class="form-control" id="cp" name="cp" required data-obligatorio pattern="[0-5][0-9]{4}" inputmode="numeric" autocomplete="postal-code">
+                  <div class="invalid-feedback">5 dígitos.</div>
+                </div>
+                <div class="col-md-5">
+                  <label for="ciudad" class="form-label">Localidad *</label>
+                  <input type="text" class="form-control" id="ciudad" name="ciudad" required data-obligatorio autocomplete="address-level2">
+                  <div class="invalid-feedback">Escribe la localidad.</div>
+                </div>
+                <div class="col-md-4">
+                  <label for="provincia" class="form-label">Provincia *</label>
+                  <select class="form-select" id="provincia" name="provincia" required data-obligatorio>
+                    <option value="">Elige…</option>
+                    <option>Almería</option><option selected>Cádiz</option><option>Córdoba</option><option>Granada</option>
+                    <option>Huelva</option><option>Jaén</option><option>Málaga</option><option>Sevilla</option>
+                    <option>Otra provincia</option>
+                  </select>
+                  <div class="invalid-feedback">Elige una provincia.</div>
+                </div>
+                <div class="col-12">
+                  <label for="notas" class="form-label">Instrucciones para el repartidor</label>
+                  <textarea class="form-control" id="notas" name="notas" rows="2" placeholder="Ej.: dejar en conserjería"></textarea>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- 4. Pago -->
+        <fieldset class="card border-0 shadow-sm">
+          <div class="card-body">
+            <legend class="h5 card-title"><i class="bi bi-credit-card"></i> Forma de pago</legend>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="pago" id="pago-tarjeta" value="tarjeta" checked>
+              <label class="form-check-label" for="pago-tarjeta">Tarjeta <i class="bi bi-credit-card-2-front"></i></label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="pago" id="pago-bizum" value="bizum">
+              <label class="form-check-label" for="pago-bizum">Bizum <i class="bi bi-phone"></i></label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="pago" id="pago-reembolso" value="contrareembolso">
+              <label class="form-check-label" for="pago-reembolso">Contra reembolso <i class="bi bi-cash-coin"></i></label>
+            </div>
+            <p class="small text-body-secondary mt-2 mb-0"><i class="bi bi-info-circle"></i> Web de prueba: no se realiza ningún cobro real.</p>
+            <hr>
+            <!-- form-switch: checkbox con aspecto de interruptor -->
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="condiciones" name="condiciones" required>
+              <label class="form-check-label" for="condiciones">Acepto las condiciones de compra *</label>
+              <div class="invalid-feedback">Debes aceptar las condiciones.</div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- Resumen lateral -->
+      <div class="col-lg-4">
+        <aside class="card resumen">
+          <div class="card-body">
+            <h2 class="h5 card-title">Tu pedido</h2>
+            <ul class="list-group list-group-flush small" id="env-lineas"></ul>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item d-flex justify-content-between px-0"><span>Subtotal</span><span id="env-subtotal"></span></li>
+              <li class="list-group-item d-flex justify-content-between px-0"><span>Envío</span><span id="env-envio"></span></li>
+              <li class="list-group-item d-flex justify-content-between px-0 fw-bold fs-5"><span>Total</span><span id="env-total"></span></li>
+            </ul>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Confirmar pedido <i class="bi bi-check2"></i></button>
+            <a href="carrito.html" class="btn btn-link w-100 mt-1"><i class="bi bi-arrow-left"></i> Volver al carrito</a>
+          </div>
+        </aside>
+      </div>
+    </form>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer-libreria py-4 mt-5">
+    <div class="container small d-flex flex-wrap justify-content-between gap-2">
+      <span>© <span class="anio-actual"></span> Página &amp; Tinta · Calle Ancha 12, Cádiz</span>
+      <span class="enlaces-legales"><a href="#">Aviso legal</a><a href="#">Privacidad</a><a href="#">Cookies</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

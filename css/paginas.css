@@ -1,0 +1,265 @@
+/* =========================================================================
+   paginas.css — Estilos ESPECÍFICOS de cada página
+   -------------------------------------------------------------------------
+   Portada (hero + categorías con CSS Grid), ficha de libro, carrito,
+   envío y factura. Incluye media queries para el diseño adaptable.
+   ========================================================================= */
+
+/* ---------- INDEX: cabecera principal (hero) ---------- */
+.hero {
+  /* Dos fondos superpuestos: degradado radial + degradado lineal */
+  background:
+    radial-gradient(circle at 85% 20%, rgba(224, 164, 88, 0.35), transparent 40%),
+    linear-gradient(120deg, var(--color-tinta) 0%, #34466e 100%);
+  color: var(--color-papel);
+  border-radius: 0 0 2rem 2rem;
+}
+
+.hero h1 {
+  color: var(--color-papel);
+}
+
+/* Animación de entrada del texto del hero */
+.hero .hero__texto {
+  animation: aparecer 0.8s ease-out both;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Libros "apilados" del hero: rotaciones con transform */
+.pila-libros {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.5rem;
+  min-height: 16rem;
+}
+
+.pila-libros .portada {
+  width: 8rem;
+  transition: transform 0.4s;
+}
+
+/* :nth-child: cada libro de la pila tiene una inclinación distinta */
+.pila-libros .portada:nth-child(1) { transform: rotate(-8deg); }
+.pila-libros .portada:nth-child(2) { transform: translateY(-1.5rem); width: 9rem; }
+.pila-libros .portada:nth-child(3) { transform: rotate(7deg); }
+
+.pila-libros:hover .portada {
+  transform: none;                   /* al pasar el ratón se enderezan */
+}
+
+/* ---------- INDEX: rejilla de categorías con CSS Grid ---------- */
+.rejilla-categorias {
+  display: grid;
+  /* auto-fit + minmax: tantas columnas como quepan, de mínimo 150px */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1.25rem 0.5rem;
+  border: 2px solid transparent;
+  border-radius: var(--radio);
+  background-color: #fff;
+  color: var(--color-tinta);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transicion), background-color var(--transicion);
+}
+
+.categoria .bi {
+  font-size: 1.8rem;
+  color: var(--color-acento);
+}
+
+.categoria:hover,
+.categoria.activa {
+  border-color: var(--color-acento);
+  background-color: #fff3ee;
+}
+
+/* ---------- INDEX: banda de ventajas ---------- */
+.ventaja {
+  text-align: center;
+}
+
+.ventaja .bi {
+  display: inline-grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: #fff3ee;
+  color: var(--color-acento);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- FICHA DE LIBRO ---------- */
+.ficha .portada {
+  max-width: 320px;
+  margin-inline: auto;
+}
+
+/* Lista de detalles técnicos: rejilla de 2 columnas (dt / dd) */
+.detalles-tecnicos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1.25rem;
+  margin: 0;
+}
+
+.detalles-tecnicos dt {
+  color: var(--color-suave);
+  font-weight: 600;
+}
+
+.detalles-tecnicos dd {
+  margin: 0;
+}
+
+/* ---------- CARRITO ---------- */
+.tabla-carrito .portada {
+  width: 3.5rem;
+  padding: 0.3rem;
+}
+
+/* En la mini portada ocultamos los textos con display:none */
+.tabla-carrito .portada > * {
+  display: none;
+}
+
+.tabla-carrito .portada::after {
+  display: none;
+}
+
+.campo-cantidad {
+  width: 5rem;
+}
+
+/* Filas pares con fondo suave: :nth-child(even) */
+.tabla-carrito tbody tr:nth-child(even) {
+  background-color: #fdfaf5;
+}
+
+.carrito-vacio .bi {
+  font-size: 4rem;
+  color: #ddd5c8;
+}
+
+/* ---------- ENVÍO: opciones de entrega como tarjetas seleccionables ---------- */
+.opcion-envio {
+  display: block;
+  border: 2px solid #e6dfd4;
+  border-radius: var(--radio);
+  padding: 1rem 1rem 1rem 3rem;
+  position: relative;
+  cursor: pointer;
+  background-color: #fff;
+  transition: border-color var(--transicion);
+}
+
+.opcion-envio .form-check-input {
+  position: absolute;
+  left: 1rem;
+  top: 1.2rem;
+}
+
+/* :has() -> se resalta la tarjeta cuyo radio interior está marcado */
+.opcion-envio:has(.form-check-input:checked) {
+  border-color: var(--color-acento);
+  background-color: #fff3ee;
+}
+
+/* Campos inválidos tras validar: borde más grueso (:invalid) */
+.was-validated .form-control:invalid,
+.was-validated .form-select:invalid {
+  border-width: 2px;
+}
+
+/* ---------- FACTURA ---------- */
+.factura {
+  background-color: #fff;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  /* Borde superior de color hecho con degradado */
+  border-top: 8px solid;
+  border-image: linear-gradient(90deg, var(--color-acento), var(--color-oro)) 1;
+}
+
+.factura .tabla-factura th {
+  background-color: var(--color-tinta);
+  color: #fff;
+}
+
+.factura .total-factura {
+  font-size: 1.4rem;
+  font-family: var(--fuente-titulos);
+  color: var(--color-tinta);
+}
+
+/* Sello "PAGADO" girado con transform */
+.sello-pagado {
+  display: inline-block;
+  border: 3px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.25rem 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  border-radius: 0.5rem;
+  transform: rotate(-10deg);
+  opacity: 0.8;
+}
+
+/* ---------- MEDIA QUERIES (diseño adaptable / responsive) ---------- */
+
+/* Móvil: menos de 576px */
+@media (max-width: 575.98px) {
+  .hero {
+    border-radius: 0 0 1rem 1rem;
+    text-align: center;
+  }
+
+  .pila-libros .portada {
+    width: 5.5rem;
+  }
+
+  .pila-libros .portada:nth-child(2) {
+    width: 6.5rem;
+  }
+
+  /* En móvil solo se ve el número de cada paso, no el texto */
+  .pasos li span {
+    display: none;
+  }
+}
+
+/* Tablet en adelante: los pasos son algo más grandes */
+@media (min-width: 768px) {
+  .pasos li::before {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .pasos::before {
+    top: 1.35rem;
+  }
+}
+
+/* Usuarios que piden menos movimiento: desactivamos animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

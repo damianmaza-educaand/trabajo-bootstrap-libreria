@@ -1,0 +1,119 @@
+/* =========================================================================
+   base.css — Hoja de estilos BASE de "Página & Tinta" (librería online)
+   -------------------------------------------------------------------------
+   Contiene: tipografía importada, variables CSS (custom properties),
+   reset ligero, estilos de elementos HTML y selección de texto.
+   Se carga DESPUÉS de Bootstrap para poder sobrescribir sus valores.
+   ========================================================================= */
+
+/* @import: traemos dos fuentes de Google Fonts (una con serifa para títulos
+   y otra sin serifa para el texto). Debe ir al principio de la hoja. */
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Nunito+Sans:wght@400;600;700&display=swap");
+
+/* :root -> variables globales reutilizables en todas las hojas.
+   También redefinimos variables propias de Bootstrap (--bs-*) para
+   cambiar el color primario de todos sus componentes de una vez. */
+:root {
+  --color-tinta: #1f2a44;        /* azul tinta: color principal */
+  --color-papel: #fbf7f0;        /* color papel: fondo general */
+  --color-acento: #c8553d;       /* terracota: botones y precios */
+  --color-acento-oscuro: #a43f2a;
+  --color-oro: #e0a458;          /* dorado: estrellas y detalles */
+  --color-texto: #2b2b2b;
+  --color-suave: #6c6a67;
+
+  --fuente-titulos: "Lora", Georgia, serif;
+  --fuente-texto: "Nunito Sans", system-ui, sans-serif;
+
+  --radio: 0.75rem;              /* radio de esquinas común */
+  --sombra: 0 0.5rem 1.25rem rgba(31, 42, 68, 0.12);
+  --transicion: 0.25s ease-in-out;
+
+  /* Variables de Bootstrap sobrescritas */
+  --bs-primary: var(--color-acento);
+  --bs-primary-rgb: 200, 85, 61;
+  --bs-body-font-family: var(--fuente-texto);
+  --bs-body-bg: var(--color-papel);
+  --bs-body-color: var(--color-texto);
+  --bs-link-color: var(--color-acento-oscuro);
+  --bs-link-hover-color: var(--color-tinta);
+}
+
+/* Modelo de caja: el padding y el borde se incluyen en el ancho. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fuente-texto);
+  background-color: var(--color-papel);
+  color: var(--color-texto);
+  line-height: 1.6;
+  /* min-height + flex: el footer siempre queda abajo aunque haya poco contenido */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto; /* el main crece y empuja el footer hacia abajo */
+}
+
+/* Selector de grupo: misma fuente para todos los títulos */
+h1, h2, h3, h4, h5, h6,
+.navbar-brand {
+  font-family: var(--fuente-titulos);
+  color: var(--color-tinta);
+}
+
+/* clamp(): tamaño de letra fluido entre un mínimo y un máximo */
+h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+/* Pseudo-elemento ::selection: color al seleccionar texto con el ratón */
+::selection {
+  background-color: var(--color-oro);
+  color: var(--color-tinta);
+}
+
+/* Pseudo-elemento ::placeholder en los campos de formulario */
+::placeholder {
+  color: var(--color-suave) !important;
+  font-style: italic;
+}
+
+/* Pseudo-clase :focus-visible: contorno accesible solo al navegar con teclado */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-oro);
+  outline-offset: 2px;
+}
+
+/* Selector de atributo: enlaces que abren en otra pestaña llevan un icono */
+a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.8em;
+}
+
+/* Botón primario de Bootstrap recoloreado con nuestras variables */
+.btn-primary {
+  --bs-btn-bg: var(--color-acento);
+  --bs-btn-border-color: var(--color-acento);
+  --bs-btn-hover-bg: var(--color-acento-oscuro);
+  --bs-btn-hover-border-color: var(--color-acento-oscuro);
+  --bs-btn-active-bg: var(--color-acento-oscuro);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--color-acento);
+  --bs-btn-border-color: var(--color-acento);
+  --bs-btn-hover-bg: var(--color-acento);
+  --bs-btn-hover-border-color: var(--color-acento);
+}
+
+.text-acento {
+  color: var(--color-acento) !important;
+}

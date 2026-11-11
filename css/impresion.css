@@ -1,0 +1,47 @@
+/* =========================================================================
+   impresion.css — Hoja de estilos para IMPRIMIR (media="print")
+   -------------------------------------------------------------------------
+   Se enlaza con <link media="print">, así que solo se aplica al imprimir
+   o al guardar como PDF. Pensada sobre todo para la factura.
+   ========================================================================= */
+
+/* Ocultamos todo lo que no tiene sentido en papel */
+.navbar,
+.footer-libreria,
+.no-imprimir,
+.pasos {
+  display: none !important;
+}
+
+body {
+  background: #fff;
+  font-size: 11pt;                   /* en impresión se usan puntos (pt) */
+  color: #000;
+}
+
+.factura {
+  box-shadow: none;
+  border: 1px solid #000;
+  margin: 0;
+}
+
+/* Las filas de la tabla no se cortan entre dos páginas */
+.tabla-factura tr {
+  break-inside: avoid;
+}
+
+/* Fuerza a imprimir los colores de fondo de la cabecera de la tabla */
+.tabla-factura th {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Muestra la URL de los enlaces entre paréntesis después del texto */
+.factura a[href^="http"]::after {
+  content: " (" attr(href) ")";
+  font-size: 9pt;
+}
+
+@page {
+  margin: 1.5cm;                     /* márgenes de la hoja impresa */
+}

@@ -1,0 +1,272 @@
+/* =========================================================================
+   componentes.css — Estilos de COMPONENTES reutilizables
+   -------------------------------------------------------------------------
+   Navbar, portadas de libro hechas solo con CSS, tarjetas, valoraciones,
+   insignias, pasos del proceso de compra y footer.
+   ========================================================================= */
+
+/* ---------- Barra de navegación ---------- */
+.navbar-libreria {
+  background-color: var(--color-tinta);
+  /* position: sticky -> la barra se queda pegada arriba al hacer scroll */
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  box-shadow: var(--sombra);
+}
+
+.navbar-libreria .navbar-brand,
+.navbar-libreria .nav-link {
+  color: var(--color-papel);
+}
+
+/* Selector de hijo directo (>) + pseudo-clase :hover */
+.navbar-libreria .navbar-nav > .nav-item > .nav-link:hover,
+.navbar-libreria .nav-link.active {
+  color: var(--color-oro);
+}
+
+/* Subrayado animado con ::after que crece al pasar el ratón */
+.navbar-libreria .nav-link {
+  position: relative;
+}
+
+.navbar-libreria .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.2rem;
+  height: 2px;
+  background-color: var(--color-oro);
+  transform: scaleX(0);              /* empieza sin ancho */
+  transform-origin: left;
+  transition: transform var(--transicion);
+}
+
+.navbar-libreria .nav-link:hover::after,
+.navbar-libreria .nav-link.active::after {
+  transform: scaleX(1);              /* crece hasta el ancho completo */
+}
+
+/* Contador del carrito: pequeña burbuja posicionada sobre el icono */
+.contador-carrito {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.6rem;
+  font-size: 0.7rem;
+  min-width: 1.3rem;
+  background-color: var(--color-acento);
+  color: #fff;
+  border-radius: 50rem;
+  text-align: center;
+}
+
+/* ---------- Portada de libro generada con CSS (sin imágenes) ---------- */
+.portada {
+  aspect-ratio: 2 / 3;               /* proporción real de un libro */
+  border-radius: 0.25rem var(--radio) var(--radio) 0.25rem;
+  /* Degradado lineal; el color de inicio llega desde HTML con --tono */
+  background: linear-gradient(135deg, var(--tono, #555) 0%, var(--color-tinta) 120%);
+  color: #fff;
+  display: flex;                     /* flexbox en columna para colocar textos */
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1rem 1rem 1.6rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 6px 0 8px rgba(0, 0, 0, 0.25), var(--sombra);
+}
+
+/* ::before -> el "lomo" del libro, una franja oscura a la izquierda */
+.portada::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.6rem;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* ::after -> círculo decorativo semitransparente */
+.portada::after {
+  content: "";
+  position: absolute;
+  width: 9rem;
+  height: 9rem;
+  right: -3rem;
+  bottom: -3rem;
+  border-radius: 50%;
+  border: 1.25rem solid rgba(255, 255, 255, 0.12);
+}
+
+.portada__titulo {
+  font-family: var(--fuente-titulos);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.portada__autor {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+/* Portada grande para la ficha del libro */
+.portada--grande .portada__titulo {
+  font-size: 1.8rem;
+}
+
+/* ---------- Tarjetas de libro ---------- */
+.tarjeta-libro {
+  border: 0;
+  border-radius: var(--radio);
+  background-color: #fff;
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+/* Al pasar el ratón la tarjeta "flota": translate + sombra mayor */
+.tarjeta-libro:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1rem 2rem rgba(31, 42, 68, 0.18);
+}
+
+.tarjeta-libro:hover .portada {
+  filter: saturate(1.3) brightness(1.05);   /* propiedad filter */
+}
+
+.precio {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-acento);
+}
+
+/* Precio anterior tachado */
+.precio-anterior {
+  text-decoration: line-through;
+  color: var(--color-suave);
+  font-size: 0.9rem;
+}
+
+/* ---------- Valoración con estrellas ---------- */
+.estrellas {
+  color: var(--color-oro);
+  letter-spacing: 0.1em;
+}
+
+/* ---------- Insignia de oferta con animación ---------- */
+.insignia-oferta {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  animation: latido 1.8s ease-in-out infinite;
+}
+
+/* @keyframes: definimos la animación "latido" (escala que sube y baja) */
+@keyframes latido {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.12); }
+}
+
+/* ---------- Pasos del proceso de compra (contadores CSS) ---------- */
+.pasos {
+  counter-reset: paso;               /* inicia un contador llamado "paso" */
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  position: relative;
+}
+
+/* Línea que une los pasos, dibujada con un pseudo-elemento */
+.pasos::before {
+  content: "";
+  position: absolute;
+  top: 1.1rem;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background-color: #ddd5c8;
+  z-index: 0;
+}
+
+.pasos li {
+  counter-increment: paso;           /* suma 1 en cada <li> */
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  font-size: 0.9rem;
+  color: var(--color-suave);
+}
+
+/* El número de cada paso lo escribe CSS con counter() */
+.pasos li::before {
+  content: counter(paso);
+  display: grid;
+  place-items: center;               /* grid para centrar el número */
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0 auto 0.4rem;
+  border-radius: 50%;
+  background-color: #ddd5c8;
+  color: var(--color-tinta);
+  font-weight: 700;
+}
+
+/* Clases de estado: paso hecho y paso actual */
+.pasos li.hecho::before {
+  content: "✓";
+  background-color: var(--color-tinta);
+  color: #fff;
+}
+
+.pasos li.actual {
+  color: var(--color-tinta);
+  font-weight: 700;
+}
+
+.pasos li.actual::before {
+  background-color: var(--color-acento);
+  color: #fff;
+}
+
+/* ---------- Tarjeta de resumen (carrito / envío) ---------- */
+.resumen {
+  border: 0;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  position: sticky;                  /* se queda visible al hacer scroll */
+  top: 5.5rem;
+}
+
+/* ---------- Footer ---------- */
+.footer-libreria {
+  background-color: var(--color-tinta);
+  color: #cfd3dc;
+}
+
+.footer-libreria h3 {
+  color: var(--color-papel);
+  font-size: 1.1rem;
+}
+
+.footer-libreria a {
+  color: #cfd3dc;
+  text-decoration: none;
+  transition: color var(--transicion);
+}
+
+.footer-libreria a:hover {
+  color: var(--color-oro);
+}
+
+/* Selector de hermano adyacente (+): separador entre enlaces seguidos */
+.footer-libreria .enlaces-legales a + a::before {
+  content: "·";
+  margin: 0 0.5rem;
+  color: var(--color-suave);
+}
